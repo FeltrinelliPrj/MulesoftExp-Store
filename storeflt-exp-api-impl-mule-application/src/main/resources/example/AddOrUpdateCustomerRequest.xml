@@ -1,0 +1,95 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <S:Body>
+    <ns0:addOrUpdateCustomer xmlns:ns0="http://v3_0.customer.webservices.csx.dtv.com/">
+      <customerData>
+        <Brand>FCOM</Brand>
+        <RetailStoreID>20</RetailStoreID>
+ 		<Instrument>
+        <CardNumber>87568587578587578</CardNumber>
+        </Instrument>        
+        <CustomerID>text123456</CustomerID>
+        <CustomerOwnerID>99000</CustomerOwnerID>
+        <CustOrgTypcode>Cliente</CustOrgTypcode>
+        <BusinessName/>
+        <Source>POS</Source>
+        <Prospect>false</Prospect>
+		<LastUpdateInfo>
+             <UpdateDate>2020-05-10T10:20:35Z</UpdateDate>
+        </LastUpdateInfo>        
+        <Affiliation>
+          <RetailStoreID>20</RetailStoreID>
+        </Affiliation>
+        <EntityInformation>
+          <Individual>
+            <Name>
+              <Name Location="First">Cesare</Name>
+              <Name Location="Middle"/>
+              <Name Location="Last">Maldini</Name>
+              <Name Location="First2"/>
+              <Name Location="Last2"/>
+            </Name>
+            <ContactInformation>
+              <Address ContactPreferenceCode="Y" PrimaryFlag="true" TypeCode="HOME">
+                <AddressLine1>Via Monterosa</AddressLine1>
+                <AddressLine2>ingresso 2</AddressLine2>
+                <AddressLine3>interno 3</AddressLine3>     
+                <ApartmentNumber>3</ApartmentNumber>
+                <City>Milano</City>
+                <Country>IT</Country>
+                <Territory>MI</Territory>
+                <PostalCode>4567</PostalCode>
+                <County>Lombardia</County>
+              </Address>
+              <Address ContactPreferenceCode="N" PrimaryFlag="false" TypeCode="WORK">
+                <AddressLine1>Via Cerri</AddressLine1>
+                <AddressLine2>ingresso 2</AddressLine2>
+                <AddressLine3>interno 3</AddressLine3>             
+                <City>Milano</City>
+                <Country>IT</Country>
+                <Territory>MI</Territory>
+                <PostalCode>456678</PostalCode>
+              </Address>
+              <EMail ContactPreferenceCode="N" PrimaryFlag="true" TypeCode="Home">
+                <EMailAddress>test@4.it</EMailAddress>
+              </EMail>
+              <Telephone>
+                <PhoneNumber TypeCode="HOME">111111</PhoneNumber>
+                <PhoneNumber TypeCode="BUSINESS">2222222</PhoneNumber>
+                <PhoneNumber TypeCode="MOBILE">3333333</PhoneNumber>
+              </Telephone>
+            </ContactInformation>
+            <PersonalSummary>
+              <GenderType>M</GenderType>
+              <BirthDate>1990-01-01</BirthDate>
+              <Rent>false</Rent>
+            </PersonalSummary>
+          </Individual>
+        </EntityInformation>
+        <PersonalPreferences>
+          <ContactPreference ContactType="Email" Permission="false"/>
+          <ContactPreference ContactType="Phone" Permission="false"/>
+          <ContactPreference ContactType="Fax" Permission="false"/>
+          <ContactPreference ContactType="Mail" Permission="true"/>
+        </PersonalPreferences>
+        <AlternateKey TypeCode="XSTORE_ID">
+          <AlternateID>20001000060</AlternateID>
+        </AlternateKey>
+        <CustomAttribute name="CUSTOMER_PERSONAL_TAX_ID">
+          <AttributeValue>MLDCSR90A01F205I</AttributeValue>
+        </CustomAttribute>
+        <CustomAttribute name="PARTY_TYPE_CODE">
+          <AttributeValue>CUSTOMER</AttributeValue>
+        </CustomAttribute>
+        <CustomAttribute name="ACTIVE_FLAG">
+          <AttributeValue>true</AttributeValue>
+        </CustomAttribute>
+        <CustomAttribute name="EMAIL_RCPT_FLAG">
+          <AttributeValue>false</AttributeValue>
+        </CustomAttribute>
+        <SignupDate>2020-07-07</SignupDate>
+      </customerData>
+      <securityUserId>alberto.barbieri@accenture.com</securityUserId>
+    </ns0:addOrUpdateCustomer>
+  </S:Body>
+</S:Envelope>

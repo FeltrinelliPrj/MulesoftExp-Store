@@ -1,0 +1,13 @@
+{
+  "Response": [
+    {
+      "ExternalKey": "TEXT12345",
+      "SfRecordId": "00B3X00000EFj88UAD",
+      "HerokuId": 10,
+      "ResponseMessage": "Success",
+	  "ResponseCode": "200",
+	  "X-Correlation-Id": "9238759832hj20h58",
+	  "TimeStamp": "2019-09-30T15:27:49.274Z"
+    }
+  ]
+}

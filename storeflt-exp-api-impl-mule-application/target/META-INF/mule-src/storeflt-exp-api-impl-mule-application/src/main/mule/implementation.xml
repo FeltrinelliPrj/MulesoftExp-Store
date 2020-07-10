@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="SearchCustomerFlow" doc:id="1faf3ee9-32ce-489f-98f0-9dc3a66d75ed" >
+		<logger level="INFO" doc:name="Before Request" doc:id="6a833c76-cd64-436c-87bc-6ffa239199f3" message="${application-msgs.before-connector-call-message}"/>
+		<http:request method="GET" doc:name="Request" doc:id="b4c12853-3f6f-4014-83f8-e3f265d35229" config-ref="customer-prc-api-httpRequestConfig" path="${customer-prc-api.path}/SearchCustomer">
+			<http:query-params ><![CDATA[#[output application/json
+---
+payload]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="04a8fb38-45bd-4227-96be-63e70564ed27" message="${application-msgs.after-connector-call-message}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0046e353-9a75-4f9f-ae71-a1401ea83014" message="#[payload]"/>
+	</flow>
+	<flow name="RetrieveCustomerFlow" doc:id="6f45bfd6-3c4c-442f-8615-7b9d44736698" >
+		<logger level="INFO" doc:name="Before Request" doc:id="e6c492db-9c1c-403b-8fd6-beaedc5ffd00" message="${application-msgs.before-connector-call-message}" />
+		<http:request method="GET" doc:name="Request" doc:id="54205cc7-3ee7-4b20-91ef-0e481e3899be" config-ref="customer-prc-api-httpRequestConfig" path="${customer-prc-api.path}/RetrieveCustomer" >
+			<http:query-params ><![CDATA[#[output application/json
+---
+payload]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="79486963-595d-4878-a02e-d1160ee1993c" message="${application-msgs.after-connector-call-message}" />
+		<logger level="INFO" doc:name="Logger" doc:id="18df637d-250f-4cde-b94e-0c01957f57c1" message="payload" />
+	</flow>
+	<flow name="InsertCustomerFlow" doc:id="13362634-39d3-4034-8a8b-a35451976ef7">
+		<logger level="INFO" doc:name="Before Request" doc:id="768323a9-585e-4da4-945f-abdc2a544ba3" message="${application-msgs.before-connector-call-message}" />
+		<http:request method="POST" doc:name="Request" doc:id="450e6623-dbf3-4704-92b8-01a0fd9f06f9" config-ref="customer-prc-api-httpRequestConfig" path="${customer-prc-api.path}/InsertCustomer" />
+		<logger level="INFO" doc:name="Logger" doc:id="e9fda6c3-0591-48a0-bf00-b2de2728003c" message="${application-msgs.after-connector-call-message}" />
+		<logger level="INFO" doc:name="Logger" doc:id="b4a9014d-d90d-422a-84ce-78abe18d8a7a" message="#[payload]" />
+	</flow>
+	<flow name="UpdateCustomerFlow" doc:id="c0c102cd-feb4-4c9a-a36e-a35ca9cd6f77">
+		<logger level="INFO" doc:name="Before Request" doc:id="dfd986c9-2cff-4025-a547-9e5ad3e29ba1" message="${application-msgs.before-connector-call-message}" />
+		<http:request method="PUT" doc:name="Request" doc:id="0aa9fd2c-6815-4d9f-ab0d-ca4ab1559c18" config-ref="customer-prc-api-httpRequestConfig" path="${customer-prc-api.path}/UpdateCustomer" />
+		<logger level="INFO" doc:name="Logger" doc:id="27774ac6-83e5-435f-a042-42fb197c47e8" message="${application-msgs.after-connector-call-message}" />
+		<logger level="INFO" doc:name="Logger" doc:id="46da4979-3990-4b17-8631-10098dc69180" message="#[payload]" />
+	</flow>
+	<flow name="insertTransactionFlow" doc:id="84f70ef2-5827-415d-b3f0-65f3b1a6ab86">
+		<logger level="INFO" doc:name="Before Request" doc:id="5a21e499-e13d-478f-9ac1-2a48843b0d2e" message="${application-msgs.before-connector-call-message}" />
+		<http:request method="POST" doc:name="Request" doc:id="3d456c05-fb6b-48fd-b9be-61a48786bf4e" config-ref="transazione-prc-httpRequestConfig" path="${transazione-prc-api.path}/InsertTransaction" />
+		<logger level="INFO" doc:name="Logger" doc:id="1f314e16-b175-4014-be43-87c8b1049601" message="${application-msgs.after-connector-call-message}" />
+		<logger level="INFO" doc:name="Logger" doc:id="7ebe4022-1c52-4993-81ab-4abc52449a6d" message="${application-msgs.after-connector-call-message}" />
+	</flow>
+	<flow name="updateTransactionFlow" doc:id="c4a7c975-60e3-464f-88f3-6950354a24a4">
+		<logger level="INFO" doc:name="Before Request" doc:id="8524a562-0d44-4326-b2f5-aebb1e86a94a" message="${application-msgs.before-connector-call-message}" />
+		<http:request method="PUT" doc:name="Request" doc:id="7e699f22-a99e-4021-8ae6-633267511b65" config-ref="transazione-prc-httpRequestConfig" path="${transazione-prc-api.path}/UpdateTransaction" />
+		<logger level="INFO" doc:name="Logger" doc:id="b690fd06-1f54-4706-8d77-800d0c51678a" message="${application-msgs.after-connector-call-message}" />
+		<logger level="INFO" doc:name="Logger" doc:id="72f379bf-fbe9-435c-9c87-78ffb9d80a70" message="${application-msgs.after-connector-call-message}" />
+	</flow>
+</mule>
