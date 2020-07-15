@@ -1,0 +1,16 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v3="http://v3_0.customer.webservices.csx.dtv.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v3:addOrUpdateCustomerResponse>
+         <!--Optional:-->
+         <customerId>?</customerId>
+		 <externalKey>?</externalKey>
+		 <sfRecordId>?</sfRecordId>
+		 <herokuId>?</herokuId>
+		 <responseMessage>?</responseMessage>
+		 <responseCode>?</responseCode>
+		 <x-Correlation-Id>?</x-Correlation-Id>
+		 <timeStamp>?</timeStamp>
+      </v3:addOrUpdateCustomerResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

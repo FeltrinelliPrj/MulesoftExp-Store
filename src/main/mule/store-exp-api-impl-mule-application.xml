@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit-soap="http://www.mulesoft.org/schema/mule/apikit-soap" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/apikit-soap http://www.mulesoft.org/schema/mule/apikit-soap/current/mule-apikit-soap.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
+    <http:listener-config name="api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081"/>
+    </http:listener-config>
+    <apikit-soap:config httpStatusVarName="httpStatus" name="soapkit-config" port="CustomerServicesApiPort" service="CustomerServicesApiService" wsdlLocation="CustomerServicesApiService"/>
+	<flow name="api-main">
+        <http:listener config-ref="api-httpListenerConfig" path="/CustomerServicesApiService/CustomerServicesApiPort">
+            <http:response statusCode="#[attributes.protocolHeaders.httpStatus default 200]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[attributes.protocolHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[attributes.protocolHeaders.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[attributes.protocolHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit-soap:router config-ref="soapkit-config">
+            <apikit-soap:attributes><![CDATA[#[%dw 2.0
+              output application/java
+              ---
+              {
+                  headers: attributes.headers,
+                  method: attributes.method,
+                  queryString: attributes.queryString
+            }]]]></apikit-soap:attributes>
+        </apikit-soap:router>
+    </flow>
+    <flow name="getVisualizerItems:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getVisualizerItems:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getPromotionHistoryWithDateRangeMaxResult:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getPromotionHistoryWithDateRangeMaxResult:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getPromotionHistoryWithDateRange:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getPromotionHistoryWithDateRange:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="addWishlistItems:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [addWishlistItems:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="associateCardToCustomer:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [associateCardToCustomer:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="addCustomerNote:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [addCustomerNote:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+	<flow name="updateAssociateAssignment:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [updateAssociateAssignment:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="addOrUpdateCustomer:\soapkit-config">
+		<ee:transform doc:id="8dc25c5f-34dc-4aeb-9996-ad44ddfdd916">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
+---
+{
+	"Cliente-Testata": [{
+		codice_cliente: payload.body.addOrUpdateCustomer.customerData.AlternateKey[0],
+		sorgente_registrazione_lead: payload.body.addOrUpdateCustomer.customerData.Source,
+		pdv_registrazione: if(payload.body.addOrUpdateCustomer.customerData.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.RetailStoreID else "",
+		tipo_utente: payload.body.addOrUpdateCustomer.customerData.CustOrgTypcode,
+		firstname: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.Name.*Name[?($.@Location =='First')][0],
+		lastname: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.Name.*Name[?($.@Location == 'Last')][0],
+		personemail: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.EMail.EMailAddress,
+		personmobilephone: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Telephone.*PhoneNumber[?($.@TypeCode =='MOBILE')][0],
+		phone: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Telephone.*PhoneNumber[?($.@TypeCode =='BUSINESS')][0],
+		billingcity: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.City,
+		billingstate: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.Territory,
+		billingcountry: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.Country,
+		billingpostacode: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.PostalCode,
+		billingstreet: 
+					payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.AddressLine1 
+		++ " " ++ 	payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.AddressLine2
+		++ " " ++ 	payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.AddressLine3,
+		billingregion: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.ContactInformation.Address.County,
+		personbirthdate: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.PersonalSummary.BirthDate,
+		sesso: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.PersonalSummary.GenderType,
+		data_registrazione: payload.body.addOrUpdateCustomer.customerData.SignupDate,
+		ultimo_aggiornamento_profilo: payload.body.addOrUpdateCustomer.customerData.LastUpdateInfo.UpdateDate,
+		pdv_scelto: if(payload.body.addOrUpdateCustomer.customerData.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.RetailStoreID else "",
+		numero_carta: payload.body.addOrUpdateCustomer.customerData.Instrument.CardNumber,
+		operatore_dedicato: if(payload.body.addOrUpdateCustomer.customerData.CustomerOwnerID != null) payload.body.addOrUpdateCustomer.customerData.CustomerOwnerID else "" ,
+		id_sfdc: payload.body.addOrUpdateCustomer.customerData.CustomerID,
+		codice_pdv_preferito: if(payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID else "",
+		codice_pdv_registrazione: if(payload.body.addOrUpdateCustomer.customerData.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.RetailStoreID else "",
+		codice_pdv_scelto: if(payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID else "",
+		brand: payload.body.addOrUpdateCustomer.customerData.Brand,
+		interessi_eventi_in_libreria : false,
+		cliente_id: payload.body.addOrUpdateCustomer.customerData.Brand ++ payload.body.addOrUpdateCustomer.customerData.AlternateKey[0]		
+	}]
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="47eb420e-260d-43f0-ad92-b2f5266f1beb" message="#[payload]"/>
+		<flow-ref doc:name="Flow Reference" doc:id="162a801a-1cad-4815-98c8-5e5829fce63e" name="InsertCustomerFlow"/>
+		<ee:transform doc:name="Transform Message" doc:id="66288013-5153-4bae-b9b5-191a98402037" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
+---
+{
+		addOrUpdateCustomerResponse: {
+		customerId: payload.Response.ExternalKey,
+		externalKey: payload.Response.ExternalKey,
+		sfRecordId: payload.Response.SfRecordId,
+		herokuId: payload.Response.HerokuId,
+		responseMessage: payload.Response.ResponseMessage,
+		responseCode: payload.Response.ResponseCode,
+		'x-Correlation-Id': payload.Response.'x_correlation_id',
+		timeStamp: payload.Response.timestamp
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="getItemHistory:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getItemHistory:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getAssociateAssignment:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getAssociateAssignment:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="deleteWishlistItems:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [deleteWishlistItems:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getTransactionHistory:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getTransactionHistory:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+	<flow name="insertTransaction" doc:id="4e07643b-24f8-41c2-a495-daf38ff24c23" >
+		
+		<http:listener doc:name="Listener" doc:id="51131c78-044f-49be-b7f6-3b7a24ee4548" config-ref="api-httpListenerConfig" path="/CustomerServicesApiService/CustomerServicesApiPort/insertTransaction" allowedMethods="POST"/>
+		<ee:transform doc:name="retrieve main object" doc:id="d68f9540-0224-45e5-acc8-c5b8ac6ffa28" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload.rawPoslogString]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="remove CDATA" doc:id="de49f804-c270-4b89-a7ab-2ea8d9b0fe45" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+	payload replace "<!\\[CDATA\\[" with "" replace "<![CDATA[" with "" replace ("]"++"]"++">") with ""]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="remove further elements" doc:id="94b68b2b-56c8-4284-8606-5df47680691a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+
+payload
+	replace "</POSLog>" with ""
+	replace ("<POSLog") with "<!-- " 
+	replace (".xsd" ++ '"') with " --" ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="clean comments" doc:id="db6ae792-192e-48ab-a730-dd67f07dd53d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+payload replace /.* -->/ with ""]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="trim" doc:id="c9c899f0-62c7-4036-aeea-18f3ff912373" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+trim(payload)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="replace CR+LF" doc:id="775407ab-3bee-416f-9334-c2491a7d36ac" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[payload replace /(?:[\t ]*(?:\r?\n|\r\R))+/ with "" 
+		replace /.*ETAIL_SALE" >/ with  /<?xml version="1.0" encoding="UTF-8"?><Transaction>/ 
+		replace "dtv:" with ""]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="remove non-white space" doc:id="d874150a-263a-4269-a8b5-3e49968f755c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[
+payload 
+	replace "					" with ""
+	replace "				" with ""
+	replace "			" with ""
+	replace "		" with ""
+	replace "	" with ""]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform to xml" doc:id="41e6a08d-8547-49ec-86bd-7deeee13628f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+
+read(payload, 'application/xml')
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		
+		<ee:transform doc:name="Transform Message" doc:id="ad0e2142-5eab-4fb1-8693-e56875607c3a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+ payload
+    
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="prepare trans. json" doc:id="5f1f5b58-249a-4470-8461-59b201aa3c3b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Transazione: [{
+		codice_transazione: payload.Transaction.SequenceNumber as String,
+		id_pdv: payload.Transaction.RetailStoreID as String,
+		data: payload.Transaction.BusinessDayDate as String,
+		totale_scontrino: payload.Transaction.RetailTransaction.Total as Number
+	}]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="247f7f16-9cae-4e9e-b38a-3007b5f71f2d" message="#[payload]"/>
+	</flow>
+	<flow name="searchCustomers:\soapkit-config">
+		<ee:transform doc:name="Transform Message" doc:id="bdb0c356-4d17-4d6c-a052-4681af2c7acd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
+---
+{
+	Codice_Cliente: payload.body.searchCustomers[0].CustomerID,
+	FirstName: payload.body.searchCustomers.customerData.EntityInformation.Individual.Name.*Name[?($.@Location == 'First')][0],
+	LastName: payload.body.searchCustomers.customerData.EntityInformation.Individual.Name.*Name[?($.@Location == 'Last')][0],
+	PersonEmail: payload.body.searchCustomers[0].EntityInformation.Individual.ContactInformation.EMail.EMailAddress,
+	PersonMobilePhone: payload.body.searchCustomers[0].EntityInformation.Individual.ContactInformation.Telephone.PhoneNumber,
+	Numero_Carta: payload.body.searchCustomers[0].Instrument.CardNumber,
+	BillingCity: payload.body.searchCustomers[0].EntityInformation.Individual.ContactInformation.Address.City,
+	BillingCountry: payload.body.searchCustomers[0].EntityInformation.Individual.ContactInformation.Address.Country,
+	BillingPostalCode: payload.body.searchCustomers[0].EntityInformation.Individual.ContactInformation.Address.PostalCode,
+	"x-correlation-id": "123456"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="99817840-7820-4ee9-885a-b92c766b1bbd" message="#[payload]"/>
+		<flow-ref doc:name="Flow Reference" doc:id="24822967-5e73-4b01-8fef-099e22c955cf" name="SearchCustomerFlow" />
+		<ee:transform doc:name="Transform Message" doc:id="d86c915a-afdc-4aae-9746-dc27f6899ab5">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
+---
+{
+	ns0#searchCustomersResponse: {
+		return: {
+			
+			Customer: payload.Response map ( payload01 , indexOfPayload01 ) -> {
+				
+				CustomerID: payload01.Codice_Cliente,
+				EntityInformation: {
+					Individual: {
+						Name: {
+							Name @(Location: 'First'): payload01.FirstName
+						},
+						Name: {
+							Name @(Location: 'Last'): payload01.LastName
+						},
+						ContactInformation: {
+							Address: {
+								City: payload01.BillingCity,
+								Country: payload01.BillingState,
+								PostalCode: payload01.BillingPostalCode
+							},
+							EMail: {
+								EMailAddress: payload01.PersonEmail
+							},
+							Telephone: {
+								PhoneNumber: payload01.PersonMobilePhone
+							}
+						}
+					}
+				},
+				AlternateKey: {
+					AlternateID: payload01.Id
+				},
+				CustomerCards: {
+					Instrument: {
+						CardNumber: payload01.Numero_Carta
+					}
+				}
+    		
+    		}
+			
+			
+	}
+}
+
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="retrieveCustomer:\soapkit-config">
+        <ee:transform doc:name="Transform Message" doc:id="39feca51-a4e3-4bc7-a30f-ed6e12271749">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
+---
+{
+	sfdc_id: payload.body.retrieveCustomer.alternateKeyList.AlternateID,
+	"x-correlation-id": "123456"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="d5a5ac66-805c-407b-9243-0d3b7bfb0293" name="RetrieveCustomerFlow" />
+		<ee:transform doc:name="Transform Message" doc:id="45ffd443-3fbf-403b-9e25-715c8c737bc6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
+---
+{
+	body: {
+		ns0#retrieveCustomerResponse: {
+			return: {
+				CustomerID: payload."Cliente-Testata".Codice_Cliente,
+				SignupDate: payload."Cliente-Testata".Data_registrazione[0] as Date,
+				EntityInformation: {
+					Individual: {
+						Name: {
+							Name @(Location: 'First'): payload."Cliente-Testata".FirstName
+						},
+						Name: {
+							Name @(Location: 'Last'): payload."Cliente-Testata".LastName
+						},
+						ContactInformation: {
+							Address: {
+								City: payload."Cliente-Testata".BillingCity,
+								Country: payload."Cliente-Testata".BillingState,
+								PostalCode: payload."Cliente-Testata".BillingPostalCode,
+								AddressLine1: payload."Cliente-Testata".BillingStreet,
+								Country: payload."Cliente-Testata".BillingCountry
+							},
+							EMail: {
+								EMailAddress: payload."Cliente-Testata".PersonEmail
+							},
+							Telephone: {
+								PhoneNumber: payload."Cliente-Testata".PersonMobilePhone,
+								Extension: payload."Cliente-Testata".Phone
+							}
+						},
+						PersonalSummary: {
+							GenderType: payload."Cliente-Testata".Sesso,
+							BirthDate: payload."Cliente-Testata".PersonBirthdate[0] as Date
+						}
+					}
+				},
+				SecurityPrivilege: payload."Cliente-Testata".Consenso_Soft_SPAM,
+				PreferenceCenters: {
+					PreferenceCenter: {
+						PreferenceCenterChannel @(updateDate: payload."Cliente-Testata".Data_Rilascio_Consenso_Marketing[0] as DateTime): {
+							authorizationDocument: payload."Cliente-Testata".Consenso_Marketing,
+							communicationLastSentDate: payload."Cliente-Testata".Data_Cancellazione_Consenso_Marketing[0] as DateTime
+						}
+					}
+				},
+				RetailStoreID: payload."Cliente-Testata".PDV_registrazione,
+				FirstPurchaseDate: payload."Cliente-Testata".Data_Primo_Acquisto[0],
+				LastPurchaseDate: payload."Cliente-Testata".Data_Ultimo_Acquisto[0],
+				CustOrgTypcode: payload."Cliente-Testata".Tipo_Utente,
+				Source: payload."Cliente-Testata".Sorgente_registrazione_Lead,
+				LastUpdateInfo: {
+					UpdateDate: "2020-05-10 10:05:00" // payload."Cliente-Testata".Ultimo_aggiornamento_profilo[0] as DateTime
+				}
+			}
+		}
+	} write "application/xml"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="mergeCustomers:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [mergeCustomers:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getPreferenceTypes:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getPreferenceTypes:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getCustomerImage:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getCustomerImage:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getCustomerNotes:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getCustomerNotes:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="deleteCustomer:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [deleteCustomer:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="getPreferenceCenter:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [getPreferenceCenter:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="addOrUpdatePreferenceCenter:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [addOrUpdatePreferenceCenter:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="changeItemDisplayStatus:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [changeItemDisplayStatus:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="addOrDeleteCustomerFranchisees:\soapkit-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+ns soap http://schemas.xmlsoap.org/soap/envelope
+---
+{
+    body: {
+        soap#Fault: {
+            faultcode: "soap:Server",
+            faultstring: "Operation [addOrDeleteCustomerFranchisees:\soapkit-config] not implemented"
+        }
+    } write "application/xml"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>
