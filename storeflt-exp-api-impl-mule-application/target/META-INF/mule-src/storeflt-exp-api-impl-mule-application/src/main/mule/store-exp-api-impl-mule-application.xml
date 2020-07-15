@@ -165,7 +165,7 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 	"Cliente-Testata": [{
 		codice_cliente: payload.body.addOrUpdateCustomer.customerData.AlternateKey[0],
 		sorgente_registrazione_lead: payload.body.addOrUpdateCustomer.customerData.Source,
-		pdv_registrazione: payload.body.addOrUpdateCustomer.customerData.RetailStoreID,
+		pdv_registrazione: if(payload.body.addOrUpdateCustomer.customerData.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.RetailStoreID else "",
 		tipo_utente: payload.body.addOrUpdateCustomer.customerData.CustOrgTypcode,
 		firstname: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.Name.*Name[?($.@Location =='First')][0],
 		lastname: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.Name.*Name[?($.@Location == 'Last')][0],
@@ -185,14 +185,16 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 		sesso: payload.body.addOrUpdateCustomer.customerData.EntityInformation.Individual.PersonalSummary.GenderType,
 		data_registrazione: payload.body.addOrUpdateCustomer.customerData.SignupDate,
 		ultimo_aggiornamento_profilo: payload.body.addOrUpdateCustomer.customerData.LastUpdateInfo.UpdateDate,
-		pdv_scelto: payload.body.addOrUpdateCustomer.customerData.RetailStoreID,
+		pdv_scelto: if(payload.body.addOrUpdateCustomer.customerData.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.RetailStoreID else "",
 		numero_carta: payload.body.addOrUpdateCustomer.customerData.Instrument.CardNumber,
-		operatore_dedicato: payload.body.addOrUpdateCustomer.customerData.CustomerOwnerID ,
+		operatore_dedicato: if(payload.body.addOrUpdateCustomer.customerData.CustomerOwnerID != null) payload.body.addOrUpdateCustomer.customerData.CustomerOwnerID else "" ,
 		id_sfdc: payload.body.addOrUpdateCustomer.customerData.CustomerID,
-		codice_pdv_preferito: payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID,
-		codice_pdv_registrazione: payload.body.addOrUpdateCustomer.customerData.RetailStoreID,
-		codice_pdv_scelto: payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID,
-		brand: payload.body.addOrUpdateCustomer.customerData.Brand
+		codice_pdv_preferito: if(payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID else "",
+		codice_pdv_registrazione: if(payload.body.addOrUpdateCustomer.customerData.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.RetailStoreID else "",
+		codice_pdv_scelto: if(payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID != null) payload.body.addOrUpdateCustomer.customerData.Affiliation.RetailStoreID else "",
+		brand: payload.body.addOrUpdateCustomer.customerData.Brand,
+		interessi_eventi_in_libreria : false,
+		cliente_id: payload.body.addOrUpdateCustomer.customerData.Brand ++ payload.body.addOrUpdateCustomer.customerData.AlternateKey[0]		
 	}]
 }]]></ee:set-payload>
             </ee:message>
@@ -207,14 +209,14 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 ---
 {
 		addOrUpdateCustomerResponse: {
-		customerId: payload.body.Response.ExternalKey,
-		externalKey: payload.body.Response.ExternalKey,
-		sfRecordId: payload.body.Response.SfRecordId,
-		herokuId: payload.body.Response.HerokuId as String,
-		responseMessage: payload.body.Response.ResponseMessage,
-		responseCode: payload.body.Response.ResponseCode,
-		"x-Correlation-Id": payload.body.Response."X-Correlation-Id",
-		timeStamp: payload.body.Response.TimeStamp
+		customerId: payload.Response.ExternalKey,
+		externalKey: payload.Response.ExternalKey,
+		sfRecordId: payload.Response.SfRecordId,
+		herokuId: payload.Response.HerokuId,
+		responseMessage: payload.Response.ResponseMessage,
+		responseCode: payload.Response.ResponseCode,
+		'x-Correlation-Id': payload.Response.'x_correlation_id',
+		timeStamp: payload.Response.timestamp
 	}
 }]]></ee:set-payload>
 			</ee:message>
@@ -399,10 +401,10 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 				EntityInformation: {
 					Individual: {
 						Name: {
-							Name @(Location: 1): payload."Cliente-Testata".FirstName
+							Name @(Location: 'First'): payload."Cliente-Testata".FirstName
 						},
 						Name: {
-							Name @(Location: 2): payload."Cliente-Testata".LastName
+							Name @(Location: 'Last'): payload."Cliente-Testata".LastName
 						},
 						ContactInformation: {
 							Address: {

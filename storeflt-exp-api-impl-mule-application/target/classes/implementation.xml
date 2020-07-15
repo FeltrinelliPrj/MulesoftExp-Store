@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 payload]]]></http:query-params>
 		</http:request>
 		<logger level="INFO" doc:name="Logger" doc:id="04a8fb38-45bd-4227-96be-63e70564ed27" message="${application-msgs.after-connector-call-message}"/>
-		<logger level="INFO" doc:name="Logger" doc:id="0046e353-9a75-4f9f-ae71-a1401ea83014" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0046e353-9a75-4f9f-ae71-a1401ea83014" message="#[cust: payload]"/>
 	</flow>
 	<flow name="RetrieveCustomerFlow" doc:id="6f45bfd6-3c4c-442f-8615-7b9d44736698" >
 		<logger level="INFO" doc:name="Before Request" doc:id="e6c492db-9c1c-403b-8fd6-beaedc5ffd00" message="${application-msgs.before-connector-call-message}" />
