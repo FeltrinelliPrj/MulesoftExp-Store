@@ -38,3 +38,6 @@ local.properties
 flows/
 target/
 **/*.mflow
+# custom
+.mule
+.settings
