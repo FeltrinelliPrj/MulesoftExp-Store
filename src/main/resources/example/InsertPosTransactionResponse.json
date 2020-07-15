@@ -1,0 +1,92 @@
+{
+  "Transazione": [
+    {
+      "brand": "IBS",
+      "codice_transazione": "CT12345",
+      "transazione_id": "CT12345",
+      "tipo": 1,
+      "canale_di_acquisto": "Retail",
+      "id_pdv": "pdv12345",
+      "data": "2020-05-10T10:20:35Z",
+      "totale_scontrino": 150,
+      "numero_carta": "nc12345",
+      "cliente_id": "cc12345",
+      "codice_cliente": "cc12345",
+      "sotto_tipo": "Normale",
+      "status": "In corso",
+      "data_modifica_status": "2020-05-10T10:20:35Z",
+      "motivazione_annullamento": "",
+      "punto_ritiro_feltrinelli": false,
+      "punto_ritiro_pick_up_point": false,
+      "sotto_canale": "IBS",
+      "gift_card": false,
+      "owner_annullamento_ordine": "Operatore",
+      "personcontactid": "asd",
+      "link_back_office": "https://backoffice.ibs.local/generale/update...",
+      "Transazione_detail": [
+        {
+          "codice_linea": "CL12345",
+          "codice_transazione": "CT12345",
+          "transazione_id": "TR58868",
+          "transazione_detail_id": "TR88879",
+          "ean": "EAN12346565",
+          "titolo": "MuleSoft A Complete Guide - 2019 Edition",
+          "quantita": 10,
+          "prezzo_netto": 10.1,
+          "prezzo_unitario": 10.01,
+          "sconto": 10.01,
+          "prezzo_vendita": 10.01,
+          "prezzo_esteso": 10.01,
+          "prodotto_usato": false,
+          "prodotto_nof": false,
+          "canale_di_acquisto": "Retail",
+          "status": "In corso",
+          "data_modifica_status": "2020-05-10T10:20:35Z",
+          "motivazione_annullamento": "",
+          "owner_annullamento_ordine": "Operatore",
+          "id_genere_retail": "CL12345",
+          "tipologia": "Scolastica",
+          "descrizione": "El contenido del libro no tiene nada que ver con el titulo. No es un material para aprender Mulesoft",
+          "autore": "",
+          "descrizione_autore": "",
+          "casa_editrice": "",
+          "descrizione_casa_editrice": "",
+          "collana": "",
+          "descrizione_collana": "",
+          "id_supporto": "",
+          "descrizione_supporto": "",
+          "desc_liv_merceologico_3": ""
+        }
+      ],
+      "Transazione_pagamenti": [
+        {
+          "codice_pagamento": "cp12345",
+          "codice_transazione": "CT12345",
+          "transazione_pagamento_id": "FRut78",
+          "transazione_id": "TR58868",
+          "metodo_di_pagamento": "Currency",
+          "ammontare": 10.01
+        }
+      ],
+      "Transazione_indirizzi": [
+        {
+          "codice_indirizzo": "ci12345",
+          "codice_transazione": "CT12345",
+          "transazione_indirizzo_id": "TR66656",
+          "transazione_id": "TR58868",
+          "tipo_indirizzo": "Fatturazione",
+          "nome": "Mario",
+          "cognome": "Rossi",
+          "via": "Via della Giustizia",
+          "cap": "20125",
+          "citta": "Milano",
+          "provincia": "MI",
+          "regione": "Lombardia",
+          "paese": "Italia",
+          "telefono": "+39 0280218021",
+          "note_aggiuntive": ""
+        }
+      ]
+    }
+  ]
+}

@@ -41,3 +41,5 @@ target/
 # custom
 .mule
 .settings
+.project
+.classpath
