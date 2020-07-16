@@ -1,0 +1,44 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+  <env:Header/>
+  <S:Body>
+    <ns0:searchCustomers xmlns:ns0="http://v3_0.customer.webservices.csx.dtv.com/">
+      <customerData>
+        <Instrument>
+          <CardNumber></CardNumber>
+        </Instrument>
+        <CustomerID>ProvaMC2</CustomerID>
+        <EntityInformation>
+          <Individual>
+            <Name>
+              <Name Location="First">ProvaMC</Name>
+              <Name Location="Last">ProvaMC</Name>
+            </Name>
+            <ContactInformation>
+			 <Address TypeCode="?" SequenceNumber="?">
+                        <Country>text12345</Country>
+                        <!--Optional:-->
+                        <ApartmentNumber>?</ApartmentNumber>
+                        <AddressLine1 SearchType="?">?</AddressLine1>
+                        <City SearchType="?">text12345</City>
+                        <Territory SearchType="?">?</Territory>
+                        <PostalCode SearchType="?"></PostalCode>
+              </Address>
+              <EMail SearchType="StartsWith">
+              	<EMailAddress></EMailAddress>
+              </EMail>
+              <Telephone TypeCode="MOBILE" SearchType="like" SequenceNumber="1">
+				<PhoneNumber></PhoneNumber>
+				<Extension>?</Extension>
+			  </Telephone>
+            </ContactInformation>
+          </Individual>
+        </EntityInformation>
+		 <!--Zero or more repetitions:-->
+        <AlternateKey TypeCode="?">
+			<AlternateID>?</AlternateID>
+        </AlternateKey>
+      </customerData>
+      <securityUserId></securityUserId>
+    </ns0:searchCustomers>
+  </S:Body>
+</S:Envelope>

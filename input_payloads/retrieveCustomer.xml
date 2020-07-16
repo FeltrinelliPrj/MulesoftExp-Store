@@ -1,0 +1,17 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v3="http://v3_0.customer.webservices.csx.dtv.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v3:retrieveCustomer>
+         <!--Optional:-->
+         <customerId>?</customerId>
+         <!--Zero or more repetitions:-->
+         <alternateKeyList TypeCode="?">
+            <AlternateID>0013N00000RDT0GQAX</AlternateID>
+         </alternateKeyList>
+         <!--Optional:-->
+         <cardNumber>?</cardNumber>
+         <!--Optional:-->
+         <securityUserId>?</securityUserId>
+      </v3:retrieveCustomer>
+   </soapenv:Body>
+</soapenv:Envelope>
