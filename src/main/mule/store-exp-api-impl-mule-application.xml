@@ -387,9 +387,33 @@ output application/json
 {
 	Transazione: [{
 		codice_transazione: payload.Transaction.SequenceNumber as String,
+		transazione_id: payload.Transaction.SequenceNumber as String,
 		id_pdv: payload.Transaction.RetailStoreID as String,
 		data: payload.Transaction.BusinessDayDate as String,
-		totale_scontrino: payload.Transaction.RetailTransaction.Total as Number
+		totale_scontrino: payload.Transaction.RetailTransaction.*Total[?($.@TotalType =='TransactionGrandAmount')][0],
+		Transazione_detail: [{
+			codice_linea: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].SequenceNumber default 0,
+			codice_transazione: payload.Transaction.SequenceNumber as String,
+			ean: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.ItemID default 0,
+			titolo: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.Description default "",
+			quantita: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.Quantity default 0,
+			prezzo_netto: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.ActualSalesUnitPrice default 0,
+			prezzo_unitario: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.RegularSalesUnitPrice default 0,
+			sconto: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.RetailPriceModifier.*Amount[?($.@Action =='Subtract')][0] default 0,
+			prezzo_vendita: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.RegularSalesUnitPrice default 0,
+			prezzo_esteso: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.ExtendedAmount default 0,
+			tipologia: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.*MerchandiseHierarchy[?($.@Level =='DEPARTMENT')][0] default "",
+			descrizione: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.Description as String default ""
+		}],
+		Transazione_pagamenti: [{
+			codice_transazione: payload.Transaction.SequenceNumber as String,
+			metodo_di_pagamento: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')].Tender.TenderID[0] default "",
+			ammontare: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')].Tender.Amount[0] default "",
+			codice_pagamento: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')].Tender.TenderID[0] default ""
+				}],
+		Transazione_indirizzi: [{
+			codice_transazione: payload.Transaction.SequenceNumber as String
+		}]
 	}]
 }]]></ee:set-payload>
 			</ee:message>
