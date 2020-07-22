@@ -158,7 +158,6 @@ ns soap http://schemas.xmlsoap.org/soap/envelope
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
-ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 ---
 {
 	"Cliente-Testata": [{
@@ -293,133 +292,6 @@ ns soap http://schemas.xmlsoap.org/soap/envelope
             </ee:message>
         </ee:transform>
     </flow>
-	<flow name="insertTransaction" doc:id="4e07643b-24f8-41c2-a495-daf38ff24c23" >
-		
-		<http:listener doc:name="Listener" doc:id="51131c78-044f-49be-b7f6-3b7a24ee4548" config-ref="api-httpListenerConfig" path="/CustomerServicesApiService/CustomerServicesApiPort/insertTransaction" allowedMethods="POST"/>
-		<ee:transform doc:name="retrieve main object" doc:id="d68f9540-0224-45e5-acc8-c5b8ac6ffa28" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-payload.rawPoslogString]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="remove CDATA" doc:id="de49f804-c270-4b89-a7ab-2ea8d9b0fe45" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output text/plain
----
-	payload replace "<!\\[CDATA\\[" with "" replace "<![CDATA[" with "" replace ("]"++"]"++">") with ""]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="remove further elements" doc:id="94b68b2b-56c8-4284-8606-5df47680691a" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output text/plain
----
-
-payload
-	replace "</POSLog>" with ""
-	replace ("<POSLog") with "<!-- " 
-	replace (".xsd" ++ '"') with " --" ]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="clean comments" doc:id="db6ae792-192e-48ab-a730-dd67f07dd53d" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output text/plain
----
-payload replace /.* -->/ with ""]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="trim" doc:id="c9c899f0-62c7-4036-aeea-18f3ff912373" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output text/plain
----
-trim(payload)]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="replace CR+LF" doc:id="775407ab-3bee-416f-9334-c2491a7d36ac" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[payload replace /(?:[\t ]*(?:\r?\n|\r\R))+/ with "" 
-		replace /.*ETAIL_SALE" >/ with  /<?xml version="1.0" encoding="UTF-8"?><Transaction>/ 
-		replace "dtv:" with ""]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="remove non-white space" doc:id="d874150a-263a-4269-a8b5-3e49968f755c" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[
-payload 
-	replace "					" with ""
-	replace "				" with ""
-	replace "			" with ""
-	replace "		" with ""
-	replace "	" with ""]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="Transform to xml" doc:id="41e6a08d-8547-49ec-86bd-7deeee13628f" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/xml
----
-
-read(payload, 'application/xml')
-]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		
-		<ee:transform doc:name="Transform Message" doc:id="ad0e2142-5eab-4fb1-8693-e56875607c3a" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/xml
----
- payload
-    
-]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="prepare trans. json" doc:id="5f1f5b58-249a-4470-8461-59b201aa3c3b" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	Transazione: [{
-		codice_transazione: payload.Transaction.SequenceNumber as String,
-		transazione_id: payload.Transaction.SequenceNumber as String,
-		id_pdv: payload.Transaction.RetailStoreID as String,
-		data: payload.Transaction.BusinessDayDate as String,
-		totale_scontrino: payload.Transaction.RetailTransaction.*Total[?($.@TotalType =='TransactionGrandAmount')][0],
-		Transazione_detail: [{
-			codice_linea: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].SequenceNumber default 0,
-			codice_transazione: payload.Transaction.SequenceNumber as String,
-			ean: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.ItemID default 0,
-			titolo: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.Description default "",
-			quantita: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.Quantity default 0,
-			prezzo_netto: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.ActualSalesUnitPrice default 0,
-			prezzo_unitario: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.RegularSalesUnitPrice default 0,
-			sconto: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.RetailPriceModifier.*Amount[?($.@Action =='Subtract')][0] default 0,
-			prezzo_vendita: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.RegularSalesUnitPrice default 0,
-			prezzo_esteso: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.ExtendedAmount default 0,
-			tipologia: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.*MerchandiseHierarchy[?($.@Level =='DEPARTMENT')][0] default "",
-			descrizione: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')][0].Sale.Description as String default ""
-		}],
-		Transazione_pagamenti: [{
-			codice_transazione: payload.Transaction.SequenceNumber as String,
-			metodo_di_pagamento: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')].Tender.TenderID[0] default "",
-			ammontare: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')].Tender.Amount[0] default "",
-			codice_pagamento: payload.Transaction.RetailTransaction.*LineItem[?($.@VoidFlag =='false')].Tender.TenderID[0] default ""
-				}],
-		Transazione_indirizzi: [{
-			codice_transazione: payload.Transaction.SequenceNumber as String
-		}]
-	}]
-}]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="247f7f16-9cae-4e9e-b38a-3007b5f71f2d" message="#[payload]"/>
-	</flow>
 	<flow name="searchCustomers:\soapkit-config">
 		<ee:transform doc:name="Transform Message" doc:id="bdb0c356-4d17-4d6c-a052-4681af2c7acd" >
 			<ee:message >
@@ -459,10 +331,10 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 				EntityInformation: {
 					Individual: {
 						Name: {
-							Name @(Location: 'First'): payload01.FirstName
-						},
-						Name: {
+							Name @(Location: 'First'): payload01.FirstName,
+							Name @(Location: 'Middle') : "",
 							Name @(Location: 'Last'): payload01.LastName
+						
 						},
 						ContactInformation: {
 							Address: {
@@ -479,8 +351,8 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 						}
 					}
 				},
-				AlternateKey: {
-					AlternateID: payload01.Id
+			AlternateKey @(TypeCode: "XSTORE_ID"): {
+				AlternateID: payload01.Id
 				},
 				CustomerCards: {
 					Instrument: {
@@ -512,6 +384,7 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 			</ee:message>
 		</ee:transform>
 		<flow-ref doc:name="Flow Reference" doc:id="d5a5ac66-805c-407b-9243-0d3b7bfb0293" name="RetrieveCustomerFlow" />
+		<logger level="INFO" doc:name="Logger" doc:id="03b2f49a-21ac-4e1b-9969-e4da78abb5ab" message="#[payload]"/>
 		<ee:transform doc:name="Transform Message" doc:id="45ffd443-3fbf-403b-9e25-715c8c737bc6" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -522,38 +395,79 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 	body: {
 		ns0#retrieveCustomerResponse: {
 			return: {
+				ResponseCode: "OK",
 				CustomerID: payload."Cliente-Testata".Codice_Cliente,
 				SignupDate: payload."Cliente-Testata".Data_registrazione[0] as Date,
+				RetailStoreID: payload."Cliente-Testata".Codice_PDV_registrazione[0],
+				FirstPurchaseDate: payload."Cliente-Testata".Data_Primo_Acquisto[0],
+				LastPurchaseDate: payload."Cliente-Testata".Data_Ultimo_Acquisto[0],
+				CustOrgTypcode: payload."Cliente-Testata".Tipo_Utente,
+				Source: payload."Cliente-Testata".Sorgente_registrazione_Lead,
+				LastUpdateInfo: {
+					UpdateDate: "2020-05-10 10:05:00" // payload."Cliente-Testata".Ultimo_aggiornamento_profilo[0] as DateTime
+				},
+				Affiliation: {
+					RetailStoreID: if (payload."Cliente-Testata".PDV_Scelto[0] != null) payload."Cliente-Testata".PDV_Scelto[0] else ''
+					//RetailStoreID: payload."Cliente-Testata".PDV_Preferito[0] as String
+				},
 				EntityInformation: {
 					Individual: {
 						Name: {
-							Name @(Location: 'First'): payload."Cliente-Testata".FirstName
-						},
-						Name: {
+							Name @(Location: 'First'): payload."Cliente-Testata".FirstName,
+							Name @(Location: 'Middle') : "",
 							Name @(Location: 'Last'): payload."Cliente-Testata".LastName
 						},
 						ContactInformation: {
 							Address: {
-								City: payload."Cliente-Testata".BillingCity,
-								Country: payload."Cliente-Testata".BillingState,
-								PostalCode: payload."Cliente-Testata".BillingPostalCode,
-								AddressLine1: payload."Cliente-Testata".BillingStreet,
-								Country: payload."Cliente-Testata".BillingCountry
+								City @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "" , ValidFlag: ""): payload."Cliente-Testata".BillingCity[0],
+								Territory @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "" , ValidFlag: ""): payload."Cliente-Testata".BillingState[0],
+								PostalCode @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "" , ValidFlag: ""): payload."Cliente-Testata".BillingPostalCode[0] as String,
+								AddressLine1 @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "" , ValidFlag: ""): payload."Cliente-Testata".BillingStreet[0],
+								Country @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "" , ValidFlag: ""): payload."Cliente-Testata".BillingCountry[0],
+								County @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "" , ValidFlag: ""): payload."Cliente-Testata".BillingRegion[0],
 							},
 							EMail: {
-								EMailAddress: payload."Cliente-Testata".PersonEmail
+								EMailAddress @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "" , ValidFlag: ""): payload."Cliente-Testata".PersonEmail
 							},
 							Telephone: {
-								PhoneNumber: payload."Cliente-Testata".PersonMobilePhone,
-								Extension: payload."Cliente-Testata".Phone
+								PhoneNumber @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "MOBILE" , ValidFlag: ""): payload."Cliente-Testata".PersonMobilePhone,
+								Extension @(ContactPreferenceCode: "" , PrimaryFlag: "" , SequenceNumber: "" , TypeCode: "MOBILE" , ValidFlag: ""): payload."Cliente-Testata".Phone,
+							    PhoneNumber @(ContactPreferenceCode:"" , PrimaryFlag:"" , SequenceNumber:"" , TypeCode:"BUSINESS" , ValidFlag:""): payload."Cliente-Testata".Phone,
+							    Extension @(ContactPreferenceCode:"" , PrimaryFlag:"" , SequenceNumber:"" , TypeCode:"BUSINESS" , ValidFlag:""): payload."Cliente-Testata".Phone
 							}
 						},
 						PersonalSummary: {
 							GenderType: payload."Cliente-Testata".Sesso,
 							BirthDate: payload."Cliente-Testata".PersonBirthdate[0] as Date
+						},
+						LifetimeActivitySummary: {
+							TotalSalesAmount: payload."Cliente-Testata".Valore_Ordini
 						}
 					}
 				},
+				AlternateKey @(TypeCode: "XSTORE_ID"): {
+					AlternateID: payload."Cliente-Testata".AlternateID
+				},
+				CustomAttribute @(name: "INFO_CONSENT4"): {
+					AttributeValue: payload."Cliente-Testata".Consenso_Loyalty
+					},
+				CustomAttribute @(name: "INFO_CONSENT3"): {	
+					AttributeValue: payload."Cliente-Testata".Consenso_Terze_parti
+					},
+				CustomAttribute @(name: "INFO_CONSENT2"): {	
+					AttributeValue : payload."Cliente-Testata".Consenso_Profilazione
+					},
+				CustomAttribute @(name: "INFO_CONSENT1"): {
+					AttributeValue : payload."Cliente-Testata".Consenso_Marketing
+					},
+				CustomAttribute @(name: "CUSTOMER_GROUPS"): {
+					AttributeValue : payload."Cliente-Testata".Stato_Loyalty
+				},
+				CustomerCards: {
+					Instrument: {
+						CardNumber: payload."Cliente-Testata".Numero_Carta
+					}
+				} write "application/xml",
 				SecurityPrivilege: payload."Cliente-Testata".Consenso_Soft_SPAM,
 				PreferenceCenters: {
 					PreferenceCenter: {
@@ -562,15 +476,8 @@ ns ns0 http://v3_0.customer.webservices.csx.dtv.com/
 							communicationLastSentDate: payload."Cliente-Testata".Data_Cancellazione_Consenso_Marketing[0] as DateTime
 						}
 					}
-				},
-				RetailStoreID: payload."Cliente-Testata".PDV_registrazione,
-				FirstPurchaseDate: payload."Cliente-Testata".Data_Primo_Acquisto[0],
-				LastPurchaseDate: payload."Cliente-Testata".Data_Ultimo_Acquisto[0],
-				CustOrgTypcode: payload."Cliente-Testata".Tipo_Utente,
-				Source: payload."Cliente-Testata".Sorgente_registrazione_Lead,
-				LastUpdateInfo: {
-					UpdateDate: "2020-05-10 10:05:00" // payload."Cliente-Testata".Ultimo_aggiornamento_profilo[0] as DateTime
 				}
+				
 			}
 		}
 	} write "application/xml"
